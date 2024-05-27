@@ -1,16 +1,20 @@
 from pydantic import BaseModel
 
-class UserBase(BaseModel):
+class UserCreate(BaseModel):
     first_name: str
     last_name: str
     phone_number: str
-
-class UserCreate(UserBase):
     password: str
 
-class User(UserBase):
-    id: int
+class UserAuth(BaseModel):
+    phone_number: str
+    password: str
+
+class UserResponse(BaseModel):
+    first_name: str
+    last_name: str
+    phone_number: str
+    api_key: str
 
     class Config:
         orm_mode = True
-
