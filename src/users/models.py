@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 from ..database import Base
 
 class User(Base):
@@ -9,3 +10,5 @@ class User(Base):
     phone_number = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     api_key = Column(String, unique=True, index=True)
+    
+    tasks = relationship("Task", back_populates="user")
