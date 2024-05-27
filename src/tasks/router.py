@@ -20,4 +20,16 @@ def create_task(task: schemas.TaskCreate, user: User = Depends(get_current_user)
     return new_task
 
 @router.put("/{task_id}", response_model=schemas.TaskResponse)
-def update_task(task_id: int, task: schemas.TaskUpdate, user: User = Depends(get_current_user), db: Session = Depends(get_db
+def update_task(task_id: int, task: schemas.TaskUpdate, user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    db_task = db.query(models.Task).filter(models.Task.id == task_id, models.Task.user_id == user.id).first()
+    if not db_task:
+        raise HTTPException(status_code=404, detail="Task not found or not authorized")
+    db_task.status = task.status
+    db.commit()
+    db.refresh(db_task)
+    return db_task
+
+@router.get("/", response_model=list[schemas.TaskResponse])
+def list_tasks(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    tasks = db.query(models.Task).filter(models.Task.user_id == user.id).all()
+    return tasks
