@@ -2,17 +2,13 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from ..database import Base
 
-class Collar(Base):
-    __tablename__ = "collars"
+class Task(Base):
+    __tablename__ = "tasks"
     id = Column(Integer, primary_key=True, index=True)
-    unique_number = Column(String, unique=True, index=True)
-    characteristics = Column(String)
+    description = Column(String, index=True)
+    status = Column(String, index=True)
+    dog_id = Column(Integer, ForeignKey("dogs.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
 
-class Dog(Base):
-    __tablename__ = "dogs"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    description = Column(String)
-    collar_id = Column(Integer, ForeignKey("collars.id"))
-
-    collar = relationship("Collar", back_populates="dog")
+    dog = relationship("Dog", back_populates="tasks")
+    user = relationship("User", back_populates="tasks")
