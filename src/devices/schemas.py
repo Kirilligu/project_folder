@@ -15,7 +15,7 @@ class DogResponse(BaseModel):
     collar_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class CollarResponse(BaseModel):
     id: int
@@ -23,4 +23,4 @@ class CollarResponse(BaseModel):
     characteristics: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
