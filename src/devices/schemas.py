@@ -1,28 +1,26 @@
 from pydantic import BaseModel
 
-class CollarBase(BaseModel):
+class CollarCreate(BaseModel):
     unique_number: str
+    characteristics: str
 
-class CollarCreate(CollarBase):
-    pass
-
-class Collar(CollarBase):
-    id: int
-
-    class Config:
-        orm_mode = True
-
-class DogBase(BaseModel):
+class DogCreate(BaseModel):
     name: str
     description: str
 
-class DogCreate(DogBase):
-    pass
-
-class Dog(DogBase):
+class DogResponse(BaseModel):
     id: int
-    owner_id: int
+    name: str
+    description: str
+    collar_id: int
 
     class Config:
         orm_mode = True
 
+class CollarResponse(BaseModel):
+    id: int
+    unique_number: str
+    characteristics: str
+
+    class Config:
+        orm_mode = True
