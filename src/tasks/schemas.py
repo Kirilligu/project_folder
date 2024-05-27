@@ -1,4 +1,3 @@
-
 from pydantic import BaseModel
 
 class TaskCreate(BaseModel):
@@ -16,4 +15,4 @@ class TaskResponse(BaseModel):
     user_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
